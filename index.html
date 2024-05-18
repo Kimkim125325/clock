@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Current Time in San Francisco and Korea</title>
+    <title>시계는 똑딱똑딱</title>
+
+    <!-- 파비콘 추가 -->
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
@@ -35,7 +39,7 @@
             border: none;
         }
         .time-text {
-            font-size: 1em; /* 원하는 크기로 설정 */
+            font-size: 3em; /* 원하는 크기로 설정 */
             font-weight: bold; /* 굵게 표시 (선택 사항) */
         }
         .character-image {
@@ -53,15 +57,15 @@
 <body>
     <div class="container">
         <h1>Current Time</h1>
-        <p><strong>San Francisco:</strong> <span id="sf-time" class="time-text"></span></p>
+        <p><span id="sf-time" class="time-text"></span></p>
         <!-- 아날로그 시계 위젯 (샌프란시스코) -->
         <a href="https://logwork.com/clock-widget/" class="clock-time" data-style="iron-y" data-size="250" data-timezone="America/Los_Angeles">San Francisco</a>
         <!-- 이미지 (샌프란시스코) -->
         <img src="https://images.unsplash.com/photo-1501971687420-ee6a2eca6e03?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="San Francisco" class="clock-image">
         
-        <p><strong>Korea:</strong> <span id="kr-time" class="time-text"></span></p>
+        <p><span id="kr-time" class="time-text"></span></p>
         <!-- 아날로그 시계 위젯 (서울) -->
-        <a href="https://logwork.com/clock-widget/" class="clock-time" data-style="iron-y" data-size="250" data-timezone="Asia/Seoul">Seoul</a>
+        <a href="https://logwork.com/clock-widget/" class="clock-time" data-style="blue-light" data-size="250" data-timezone="Asia/Seoul">Seoul</a>
         <!-- 이미지 (서울) -->
         <img src="https://images.unsplash.com/photo-1617336079486-67e9220fbb47?q=80&w=1592&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="San Francisco" class="clock-image">
         <img src="clock/usagi.GIF" alt="귀여운 캐릭터" class="character-image">
