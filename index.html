@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.0.2/luxon.min.js"></script>
     <title>시계는 똑딱똑딱</title>
 
     <!-- 파비콘 추가 -->
@@ -59,16 +60,34 @@
         <h1>Current Time</h1>
         <p><span id="sf-time" class="time-text"></span></p>
         <!-- 아날로그 시계 위젯 (샌프란시스코) -->
-        <a href="https://logwork.com/clock-widget/" class="clock-time" data-style="iron-y" data-size="250" data-timezone="America/Los_Angeles">San Francisco</a>
+        <a href="https://logwork.com/clock-widget/" class="clock-time" data-style="iron-y" data-size="200" data-timezone="America/Los_Angeles">San Francisco</a>
         <!-- 이미지 (샌프란시스코) -->
         <img src="https://images.unsplash.com/photo-1501971687420-ee6a2eca6e03?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="San Francisco" class="clock-image">
         
         <p><span id="kr-time" class="time-text"></span></p>
         <!-- 아날로그 시계 위젯 (서울) -->
-        <a href="https://logwork.com/clock-widget/" class="clock-time" data-style="blue-light" data-size="250" data-timezone="Asia/Seoul">Seoul</a>
+        <a href="https://logwork.com/clock-widget/" class="clock-time" data-style="blue-light" data-size="200" data-timezone="Asia/Seoul">Seoul</a>
         <!-- 이미지 (서울) -->
         <img src="https://images.unsplash.com/photo-1617336079486-67e9220fbb47?q=80&w=1592&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="San Francisco" class="clock-image">
         <img src="clock/usagi.GIF" alt="귀여운 캐릭터" class="character-image">
+        <!-- 도시 선택, 시간 입력 필드와 변환 버튼 -->
+        <div>
+            <label for="city-select">도시 선택:</label>
+            <select id="city-select">
+                <option value="America/Los_Angeles">샌프란시스코</option>
+                <option value="Asia/Seoul">한국</option>
+            </select>
+            <label for="input-date">날짜:</label>
+            <input type="date" id="input-date">
+            <label for="input-time">시간:</label>
+            <input type="time" id="input-time">
+            <button onclick="convertTime()">변환</button>
+        </div>
+
+        <!-- 변환된 시간 표시 영역 -->
+        <div>
+            <p><strong id="output-city"></strong> 시간: <span id="output-time"></span></p>
+        </div>
     </div>
     <style>
     .clock-image {
@@ -81,6 +100,44 @@
     </style>
 
     <script>
+    const { DateTime } = luxon;
+
+    function convertTime() {
+        const city = document.getElementById('city-select').value;
+        const date = document.getElementById('input-date').value;
+        const time = document.getElementById('input-time').value;
+
+        if (date && time) {
+            const inputDateTimeString = `${date}T${time}`;
+            let inputDateTime;
+
+            if (city === 'America/Los_Angeles') {
+                inputDateTime = DateTime.fromISO(inputDateTimeString, { zone: 'America/Los_Angeles' });
+            } else {
+                inputDateTime = DateTime.fromISO(inputDateTimeString, { zone: 'Asia/Seoul' });
+            }
+
+            let targetCity, targetZone;
+            if (city === 'America/Los_Angeles') {
+                targetCity = '서울';
+                targetZone = 'Asia/Seoul';
+            } else {
+                targetCity = '샌프란시스코';
+                targetZone = 'America/Los_Angeles';
+            }
+
+            const targetDateTime = inputDateTime.setZone(targetZone);
+            const formattedTime = targetDateTime.toFormat('cccc, yyyy-LL-dd HH:mm');
+
+            document.getElementById('output-city').textContent = targetCity;
+            document.getElementById('output-time').textContent = formattedTime;
+        } else {
+            alert('날짜와 시간을 입력해 주세요.');
+        }
+    }
+
+
+
         function updateTime() {
             // 현재 UTC 시간
             const now = new Date();
@@ -91,7 +148,10 @@
             // 한국 시간 (대한민국 표준시, UTC+9)
             const krTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
 
-            // 시간을 문자열로 포맷팅
+             // 요일 배열 추가
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            // 시간을 문자열로 포맷팅 (요일 추가)
             const formatTime = (date) => {
                 const year = date.getFullYear();
                 const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -99,8 +159,10 @@
                 const hours = String(date.getHours()).padStart(2, '0');
                 const minutes = String(date.getMinutes()).padStart(2, '0');
                 const seconds = String(date.getSeconds()).padStart(2, '0');
-                return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                const dayName = days[date.getDay()]; // 요일 추가
+                return `${year}-${month}-${day} ${dayName} ${hours}:${minutes}:${seconds}`;
             };
+
 
             // HTML 요소에 시간 표시
             document.getElementById('sf-time').textContent = formatTime(sfTime);
