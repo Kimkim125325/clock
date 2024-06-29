@@ -23,12 +23,39 @@
         background-size: cover;
         background-attachment: fixed; /* 배경 이미지 고정 */
     }
+
     @media (max-width: 768px) {
-        /* 모바일 스타일 */
-        .clock-time {
-            transform: scale(0.7); /* 시계 위젯 크기 조정 */
-        }
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* 요소를 중앙으로 정렬 */
     }
+    .input-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* 요소를 중앙으로 정렬 */
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    .input-item label {
+        margin-bottom: 5px;
+    }
+    .input-item select,
+    .input-item input,
+    .input-item button {
+        width: 50%; /* 너비를 50%로 설정 */
+        max-width: 300px; /* 최대 너비를 설정하여 너무 커지지 않도록 합니다 */
+        text-align: center; /* 텍스트를 중앙으로 정렬 */
+    }
+    .input-item select,
+    .input-item input {
+        padding: 5px; /* 패딩을 줄여 입력 필드의 크기를 줄입니다 */
+    }
+}
+
+
+
+
 
         .container {
             text-align: center;
@@ -38,9 +65,6 @@
             border-radius: 10px;
             margin: 20px;
             max-width: 90%;
-        }
-        h1 {
-            margin-bottom: 20px;
         }
         iframe {
             margin: 20px;
@@ -122,7 +146,6 @@
 </head>
 <body>
     <div class="container">
-        <h1>Current Time</h1>
         <p><span id="sf-time" class="time-text"></span></p>
         <!-- 아날로그 시계 위젯 (샌프란시스코) -->
         <a href="https://logwork.com/clock-widget/" class="clock-time" data-style="iron-y" data-size="200" data-timezone="America/Los_Angeles">San Francisco</a>
@@ -137,18 +160,27 @@
         <img src="clock/usagi.GIF" alt="귀여운 캐릭터" class="character-image">
         
         <!-- 도시 선택, 시간 입력 필드와 변환 버튼 -->
-        <div>
+    <div class="input-group">
+        <div class="input-item">
             <label for="city-select">도시 선택:</label>
             <select id="city-select">
                 <option value="America/Los_Angeles">샌프란시스코</option>
-                <option value="Asia/Seoul">한국</option>
+                <option value="Asia/Seoul">서울</option>
             </select>
+        </div>
+        <div class="input-item">
             <label for="input-date">날짜:</label>
             <input type="date" id="input-date">
+        </div>
+        <div class="input-item">
             <label for="input-time">시간:</label>
             <input type="time" id="input-time">
+        </div>
+        <div class="input-item">
             <button onclick="convertTime()">변환</button>
         </div>
+    </div>
+
 
         <!-- 변환된 시간 표시 영역 -->
         <div>
@@ -206,17 +238,16 @@
         // 요일 배열 추가
         const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-        // 시간을 문자열로 포맷팅 (요일 추가)
         const formatTime = (date) => {
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            const hours = String(date.getHours()).padStart(2, '0');
-            const minutes = String(date.getMinutes()).padStart(2, '0');
-            const seconds = String(date.getSeconds()).padStart(2, '0');
-            const dayName = days[date.getDay()]; // 요일 추가
-            return `${year}-${month}-${day} ${dayName} ${hours}:${minutes}:${seconds}`;
-        };
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const dayName = date.toLocaleString('ko-KR', { weekday: 'long' }); // 요일을 한국어로 표시
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${month}/${day} ${dayName} ${hours}:${minutes}`;
+};
+
+
 
         // HTML 요소에 시간 표시
         document.getElementById('sf-time').textContent = formatTime(sfTime);
