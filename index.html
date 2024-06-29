@@ -11,26 +11,33 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
-        body {
-            font-family: "Oswald", sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            height: 100vh;
-            margin: 0;
-            background: url("https://images.unsplash.com/photo-1500111709600-7761aa8216c7?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") no-repeat center center;
-            background-size: cover;
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+    body {
+        font-family: "Oswald", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        margin: 0;
+        background-size: cover;
+        background-attachment: fixed; /* 배경 이미지 고정 */
+    }
+    @media (max-width: 768px) {
+        /* 모바일 스타일 */
+        .clock-time {
+            transform: scale(0.7); /* 시계 위젯 크기 조정 */
         }
+    }
+
         .container {
             text-align: center;
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.6); /* 반투명 배경 */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-            margin-right: 20px; /* 우측으로 이동 */
-            margin-bottom: 20px;
+            margin: 20px;
+            max-width: 90%;
         }
         h1 {
             margin-bottom: 20px;
@@ -40,19 +47,77 @@
             border: none;
         }
         .time-text {
-            font-size: 3em; /* 원하는 크기로 설정 */
+            font-size: 2em; /* 모바일에서도 잘 보이도록 크기 조정 */
             font-weight: bold; /* 굵게 표시 (선택 사항) */
         }
         .character-image {
             position: fixed;
             bottom: 20px; /* 화면 아래에서 20px 위 */
             right: 20px;  /* 화면 오른쪽에서 20px 왼쪽 */
-            width: 150px; /* 이미지 너비 조정 */
+            width: 100px; /* 이미지 너비 조정 */
             height: auto; /* 비율에 맞게 높이 자동 조정 */
             border-radius: 10px; /* 부드러운 모서리 */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* 그림자 효과 */
         }
+        .clock-image {
+            width: 150px;  /* 시계 위젯과 동일한 크기로 설정 */
+            height: 150px; /* 시계 위젯과 동일한 크기로 설정 */
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 10px; /* 이미지 간격 조정 */
+        }
+        @media (max-width: 768px) {
+            .time-text {
+                font-size: 1.5em;
+            }
+            .clock-image {
+                width: 100px;
+                height: 100px;
+            }
+            .character-image {
+                width: 70px;
+            }
+            .container {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+        @media (max-width: 375px) {
+            .time-text {
+                font-size: 1.2em;
+            }
+            .clock-image {
+                width: 80px;
+                height: 80px;
+            }
+            .character-image {
+                width: 50px;
+            }
+            .container {
+                padding: 5px;
+            }
+            h1 {
+                font-size: 1.2em;
+            }
+        }
     </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const images = [
+            "https://images.unsplash.com/photo-1500111709600-7761aa8216c7?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1576912656434-b1a36d08fb3e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1522735555435-a8fe18da2089?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://plus.unsplash.com/premium_photo-1673002094239-c78228fbb426?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://plus.unsplash.com/premium_photo-1673002094407-a72547fa791a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        ];
+        const selectedImage = images[Math.floor(Math.random() * images.length)];
+        document.body.style.backgroundImage = `url(${selectedImage})`;
+    });
+</script>
     <script src="https://cdn.logwork.com/widget/clock.js"></script>
 </head>
 <body>
@@ -68,8 +133,9 @@
         <!-- 아날로그 시계 위젯 (서울) -->
         <a href="https://logwork.com/clock-widget/" class="clock-time" data-style="blue-light" data-size="200" data-timezone="Asia/Seoul">Seoul</a>
         <!-- 이미지 (서울) -->
-        <img src="https://images.unsplash.com/photo-1617336079486-67e9220fbb47?q=80&w=1592&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="San Francisco" class="clock-image">
+        <img src="https://images.unsplash.com/photo-1617336079486-67e9220fbb47?q=80&w=1592&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Seoul" class="clock-image">
         <img src="clock/usagi.GIF" alt="귀여운 캐릭터" class="character-image">
+        
         <!-- 도시 선택, 시간 입력 필드와 변환 버튼 -->
         <div>
             <label for="city-select">도시 선택:</label>
@@ -89,15 +155,6 @@
             <p><strong id="output-city"></strong> 시간: <span id="output-time"></span></p>
         </div>
     </div>
-    <style>
-    .clock-image {
-        width: 200px;  /* 시계 위젯과 동일한 크기로 설정 */
-        height: 200px; /* 시계 위젯과 동일한 크기로 설정 */
-        object-fit: cover;
-        border-radius: 50%;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    </style>
 
     <script>
     const { DateTime } = luxon;
@@ -136,45 +193,42 @@
         }
     }
 
+    function updateTime() {
+        // 현재 UTC 시간
+        const now = new Date();
 
+        // 샌프란시스코 시간 (미국 태평양 표준시, UTC-7 또는 UTC-8)
+        const sfTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }));
 
-        function updateTime() {
-            // 현재 UTC 시간
-            const now = new Date();
+        // 한국 시간 (대한민국 표준시, UTC+9)
+        const krTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
 
-            // 샌프란시스코 시간 (미국 태평양 표준시, UTC-7 또는 UTC-8)
-            const sfTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }));
+        // 요일 배열 추가
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-            // 한국 시간 (대한민국 표준시, UTC+9)
-            const krTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
-
-             // 요일 배열 추가
-            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-            // 시간을 문자열로 포맷팅 (요일 추가)
-            const formatTime = (date) => {
-                const year = date.getFullYear();
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const day = String(date.getDate()).padStart(2, '0');
-                const hours = String(date.getHours()).padStart(2, '0');
-                const minutes = String(date.getMinutes()).padStart(2, '0');
-                const seconds = String(date.getSeconds()).padStart(2, '0');
-                const dayName = days[date.getDay()]; // 요일 추가
-                return `${year}-${month}-${day} ${dayName} ${hours}:${minutes}:${seconds}`;
-            };
-
-
-            // HTML 요소에 시간 표시
-            document.getElementById('sf-time').textContent = formatTime(sfTime);
-            document.getElementById('kr-time').textContent = formatTime(krTime);
-        }
-
-        // 페이지가 로드될 때 시간 업데이트
-        window.onload = function() {
-            updateTime();
-            // 1초마다 시간 업데이트
-            setInterval(updateTime, 1000);
+        // 시간을 문자열로 포맷팅 (요일 추가)
+        const formatTime = (date) => {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            const dayName = days[date.getDay()]; // 요일 추가
+            return `${year}-${month}-${day} ${dayName} ${hours}:${minutes}:${seconds}`;
         };
+
+        // HTML 요소에 시간 표시
+        document.getElementById('sf-time').textContent = formatTime(sfTime);
+        document.getElementById('kr-time').textContent = formatTime(krTime);
+    }
+
+    // 페이지가 로드될 때 시간 업데이트
+    window.onload = function() {
+        updateTime();
+        // 1초마다 시간 업데이트
+        setInterval(updateTime, 1000);
+    };
     </script>
 </body>
 </html>
